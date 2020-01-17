@@ -1,0 +1,108 @@
+1.Contour
+10 fold cross validation scores:
+[0.73333333 0.82222222 0.75       0.84090909 0.81818182 0.70454545
+ 0.77272727 0.68181818 0.68181818 0.75      ]
+Mean: 0.7555555555555555
+Median 0.75
+Std: 0.05475269273281203
+[TEST] 80/20 Accuracy of the model is equal: 0.7191011235955056
+              precision    recall  f1-score   support
+
+  circinatum       0.57      0.80      0.67        10
+    garryana       1.00      0.77      0.87        22
+     glabrum       0.53      0.75      0.62        12
+   kelloggii       0.71      0.57      0.63        21
+macrophyllum       0.67      0.75      0.71        16
+     negundo       1.00      0.75      0.86         8
+
+    accuracy                           0.72        89
+   macro avg       0.75      0.73      0.73        89
+weighted avg       0.76      0.72      0.73        89
+
+2.Haralick:
+10 fold cross validation scores:
+[0.88888889 0.91111111 0.84090909 0.86363636 0.86363636 0.84090909
+ 0.84090909 0.88636364 0.84090909 0.84090909]
+ Mean: 0.8618181810000001
+ Median: 0.852272725
+ Std: 0.024408313490829076
+[TEST] 80/20 Accuracy of the model is equal: 0.898876404494382
+              precision    recall  f1-score   support
+
+  circinatum       0.86      0.86      0.86        14
+    garryana       0.94      0.89      0.91        18
+     glabrum       0.88      0.94      0.91        16
+   kelloggii       1.00      1.00      1.00        17
+macrophyllum       0.94      0.94      0.94        18
+     negundo       0.50      0.50      0.50         6
+
+    accuracy                           0.90        89
+   macro avg       0.85      0.85      0.85        89
+weighted avg       0.90      0.90      0.90        89
+
+
+3. LBP(np=24, r=8)
+10 fold cross validation scores:
+[0.95555556 0.93333333 0.95454545 0.95454545 0.95454545 0.95454545
+ 0.88636364 0.95454545 0.95454545 0.97727273]
+Mean: 0.9479797979797979
+Median: 0.9545454545454546
+Std: 0.022771001702132452
+[TEST] 80/20 Accuracy of the model is equal: 0.9887640449438202
+              precision    recall  f1-score   support
+
+  circinatum       1.00      1.00      1.00        14
+    garryana       1.00      1.00      1.00        17
+     glabrum       1.00      1.00      1.00        17
+   kelloggii       1.00      1.00      1.00        17
+macrophyllum       1.00      0.95      0.97        19
+     negundo       0.83      1.00      0.91         5
+
+    accuracy                           0.99        89
+   macro avg       0.97      0.99      0.98        89
+weighted avg       0.99      0.99      0.99        89
+
+4. Kaze features
+10 fold cross validation scores:
+[0.91111111 0.95555556 0.90909091 0.86363636 0.84090909 0.81818182
+ 0.88636364 0.84090909 0.86363636 0.88636364]
+Mean: 0.8775757575757576
+Median: 0.875
+Std: 0.03867592217947772
+[TEST] 80/20 Accuracy of the model is0.84 equal: 0.9101123595505618
+              precision    recall  f1-score   support
+
+  circinatum       0.93      0.87      0.90        15
+    garryana       0.94      0.89      0.91        18
+     glabrum       0.82      0.93      0.87        15
+   kelloggii       0.94      0.94      0.94        17
+macrophyllum       0.89      0.94      0.91        17
+     negundo       1.00      0.86      0.92         7
+
+    accuracy                           0.91        89
+   macro avg       0.92      0.90      0.91        89
+weighted avg       0.91      0.91      0.91        89
+
+5.Histogram
+10 fold cross validation scores:
+[0.84444444 0.8        0.75       0.81818182 0.90909091 0.93181818
+ 0.88636364 0.84090909 0.77272727 0.93181818]
+Mean: 0.8485353535353536
+Median: 0.8426767676767677
+Std: 0.061463816466429365
+[TEST] 80/20 Accuracy of the model is equal: 0.8426966292134831
+              precision    recall  f1-score   support
+
+  circinatum       0.86      0.86      0.86        14
+    garryana       0.82      1.00      0.90        14
+     glabrum       0.76      1.00      0.87        13
+   kelloggii       0.88      0.71      0.79        21
+macrophyllum       0.83      0.83      0.83        18
+     negundo       1.00      0.67      0.80         9
+
+    accuracy                           0.84        89
+   macro avg       0.86      0.85      0.84        89
+weighted avg       0.85      0.84      0.84        89
+
+
+

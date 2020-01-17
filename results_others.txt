@@ -1,0 +1,336 @@
+('contour', 'histogram', 'LBP')
+10 fold cross validation scores:
+[0.95555556 0.97777778 1.         0.97727273 0.97727273 0.97727273
+ 0.97727273 0.97727273 0.97727273 1.        ]
+Mean: 0.9796969696969697
+Median: 0.9772727272727273
+Std: 0.012025718112987988
+[TEST] 80/20 Accuracy of the model is equal: 0.9887640449438202
+              precision    recall  f1-score   support
+
+  circinatum       1.00      1.00      1.00        14
+    garryana       1.00      1.00      1.00        17
+     glabrum       1.00      1.00      1.00        17
+   kelloggii       1.00      1.00      1.00        17
+macrophyllum       0.94      1.00      0.97        17
+     negundo       1.00      0.86      0.92         7
+
+    accuracy                           0.99        89
+   macro avg       0.99      0.98      0.98        89
+weighted avg       0.99      0.99      0.99        89
+
+('contour', 'histogram', 'KAZE')
+10 fold cross validation scores:
+[0.97777778 1.         0.97727273 0.93181818 0.97727273 1.
+ 1.         0.95454545 0.90909091 1.        ]
+Mean: 0.9727777777777777
+Median: 0.9775252525252525
+Std: 0.03015912801714966
+[TEST] 80/20 Accuracy of the model is equal: 0.9775280898876404
+              precision    recall  f1-score   support
+
+  circinatum       1.00      1.00      1.00        14
+    garryana       1.00      0.89      0.94        19
+     glabrum       1.00      1.00      1.00        17
+   kelloggii       0.94      1.00      0.97        16
+macrophyllum       0.94      1.00      0.97        17
+     negundo       1.00      1.00      1.00         6
+
+    accuracy                           0.98        89
+   macro avg       0.98      0.98      0.98        89
+weighted avg       0.98      0.98      0.98        89
+
+('contour', 'histogram', 'Haralick')
+10 fold cross validation scores:
+[0.95555556 0.97777778 0.93181818 0.95454545 0.97727273 0.97727273
+ 0.95454545 0.97727273 0.93181818 0.97727273]
+Mean: 0.9615151515151515
+Median: 0.9664141414141414
+Std: 0.01775997731430628
+[TEST] 80/20 Accuracy of the model is equal: 0.9662921348314607
+              precision    recall  f1-score   support
+
+  circinatum       0.93      0.93      0.93        14
+    garryana       1.00      1.00      1.00        17
+     glabrum       0.94      0.94      0.94        17
+   kelloggii       1.00      1.00      1.00        17
+macrophyllum       0.94      1.00      0.97        17
+     negundo       1.00      0.86      0.92         7
+
+    accuracy                           0.97        89
+   macro avg       0.97      0.95      0.96        89
+weighted avg       0.97      0.97      0.97        89
+
+('contour', 'LBP', 'KAZE')
+10 fold cross validation scores:
+[1.         1.         0.97727273 0.95454545 0.95454545 0.95454545
+ 1.         0.93181818 0.97727273 1.        ]
+Mean: 0.975
+Median: 0.9772727272727273
+Std: 0.023727969338433068
+[TEST] 80/20 Accuracy of the model is equal: 0.9662921348314607
+              precision    recall  f1-score   support
+
+  circinatum       1.00      0.93      0.97        15
+    garryana       0.94      1.00      0.97        16
+     glabrum       1.00      1.00      1.00        17
+   kelloggii       1.00      1.00      1.00        17
+macrophyllum       0.89      1.00      0.94        16
+     negundo       1.00      0.75      0.86         8
+
+    accuracy                           0.97        89
+   macro avg       0.97      0.95      0.96        89
+weighted avg       0.97      0.97      0.97        89
+
+('contour', 'LBP', 'Haralick')
+10 fold cross validation scores:
+[1.         1.         0.97727273 1.         0.97727273 0.97727273
+ 1.         0.97727273 0.95454545 0.97727273]
+Mean: 0.984090909090909
+Median: 0.9772727272727273
+Std: 0.014552555085074644
+[TEST] 80/20 Accuracy of the model is equal: 0.9887640449438202
+              precision    recall  f1-score   support
+
+  circinatum       1.00      1.00      1.00        14
+    garryana       1.00      1.00      1.00        17
+     glabrum       1.00      1.00      1.00        17
+   kelloggii       1.00      1.00      1.00        17
+macrophyllum       0.94      1.00      0.97        17
+     negundo       1.00      0.86      0.92         7
+
+    accuracy                           0.99        89
+   macro avg       0.99      0.98      0.98        89
+weighted avg       0.99      0.99      0.99        89
+
+('contour', 'KAZE', 'Haralick')
+10 fold cross validation scores:
+[1.         0.97777778 1.         0.90909091 0.97727273 0.90909091
+ 0.97727273 0.93181818 0.90909091 1.        ]
+Mean: 0.9591414141414141
+Median: 0.9772727272727273
+Std: 0.037781997549666116
+[TEST] 80/20 Accuracy of the model is equal: 0.9550561797752809
+              precision    recall  f1-score   support
+
+  circinatum       0.93      0.93      0.93        14
+    garryana       0.94      0.94      0.94        17
+     glabrum       1.00      1.00      1.00        17
+   kelloggii       0.94      1.00      0.97        16
+macrophyllum       0.94      0.94      0.94        18
+     negundo       1.00      0.86      0.92         7
+
+    accuracy                           0.96        89
+   macro avg       0.96      0.95      0.95        89
+weighted avg       0.96      0.96      0.95        89
+
+('histogram', 'LBP', 'KAZE')
+10 fold cross validation scores:
+[1.         1.         0.97727273 0.97727273 1.         1.
+ 1.         0.97727273 0.95454545 1.        ]
+Mean: 0.9886363636363636
+Median: 1.0
+Std: 0.015245918028407643
+[TEST] 80/20 Accuracy of the model is equal: 0.9775280898876404
+              precision    recall  f1-score   support
+
+  circinatum       1.00      1.00      1.00        14
+    garryana       1.00      0.94      0.97        18
+     glabrum       0.94      1.00      0.97        16
+   kelloggii       1.00      1.00      1.00        17
+macrophyllum       0.94      0.94      0.94        18
+     negundo       1.00      1.00      1.00         6
+
+    accuracy                           0.98        89
+   macro avg       0.98      0.98      0.98        89
+weighted avg       0.98      0.98      0.98        89
+
+('histogram', 'LBP', 'Haralick')
+10 fold cross validation scores:
+[1.         1.         0.97727273 0.90909091 0.97727273 0.97727273
+ 0.97727273 0.97727273 0.95454545 0.97727273]
+Mean: 0.9727272727272727
+Median: 0.9772727272727273
+Std: 0.024478021850611386
+[TEST] 80/20 Accuracy of the model is equal: 0.9775280898876404
+              precision    recall  f1-score   support
+
+  circinatum       1.00      1.00      1.00        14
+    garryana       1.00      1.00      1.00        17
+     glabrum       0.94      1.00      0.97        16
+   kelloggii       1.00      1.00      1.00        17
+macrophyllum       0.94      0.94      0.94        18
+     negundo       1.00      0.86      0.92         7
+
+    accuracy                           0.98        89
+   macro avg       0.98      0.97      0.97        89
+weighted avg       0.98      0.98      0.98        89
+
+('histogram', 'KAZE', 'Haralick')
+10 fold cross validation scores:
+[0.97777778 1.         1.         0.95454545 1.         0.97727273
+ 1.         0.97727273 0.95454545 1.        ]
+Mean: 0.9841414141414141
+Median: 0.9888888888888889
+Std: 0.017731804652518522
+[TEST] 80/20 Accuracy of the model is equal: 0.9775280898876404
+              precision    recall  f1-score   support
+
+  circinatum       1.00      1.00      1.00        14
+    garryana       1.00      0.94      0.97        18
+     glabrum       1.00      0.94      0.97        18
+   kelloggii       1.00      1.00      1.00        17
+macrophyllum       0.89      1.00      0.94        16
+     negundo       1.00      1.00      1.00         6
+
+    accuracy                           0.98        89
+   macro avg       0.98      0.98      0.98        89
+weighted avg       0.98      0.98      0.98        89
+
+('LBP', 'KAZE', 'Haralick')
+10 fold cross validation scores:
+[1.         1.         0.97727273 0.97727273 0.95454545 0.95454545
+ 1.         0.93181818 0.95454545 1.        ]
+Mean: 0.975
+Median: 0.9772727272727273
+Std: 0.023727969338433068
+[TEST] 80/20 Accuracy of the model is equal: 0.9662921348314607
+              precision    recall  f1-score   support
+
+  circinatum       1.00      0.93      0.97        15
+    garryana       0.94      0.94      0.94        17
+     glabrum       0.94      1.00      0.97        16
+   kelloggii       1.00      1.00      1.00        17
+macrophyllum       0.94      1.00      0.97        17
+     negundo       1.00      0.86      0.92         7
+
+    accuracy                           0.97        89
+   macro avg       0.97      0.96      0.96        89
+weighted avg       0.97      0.97      0.97        89
+
+-----------------------------4---------------------------------
+('contour', 'histogram', 'LBP', 'KAZE')
+10 fold cross validation scores:
+[1.         1.         1.         0.95454545 1.         1.
+ 1.         0.97727273 0.95454545 1.        ]
+Mean: 0.9886363636363636
+Median: 1.0
+Std: 0.018323313064314867
+[TEST] 80/20 Accuracy of the model is equal: 0.9887640449438202
+              precision    recall  f1-score   support
+
+  circinatum       1.00      0.93      0.97        15
+    garryana       1.00      1.00      1.00        17
+     glabrum       1.00      1.00      1.00        17
+   kelloggii       1.00      1.00      1.00        17
+macrophyllum       0.94      1.00      0.97        17
+     negundo       1.00      1.00      1.00         6
+
+    accuracy                           0.99        89
+   macro avg       0.99      0.99      0.99        89
+weighted avg       0.99      0.99      0.99        89
+
+('contour', 'histogram', 'LBP', 'Haralick')
+10 fold cross validation scores:
+[0.95555556 1.         1.         0.95454545 0.97727273 0.97727273
+ 0.97727273 0.97727273 0.97727273 1.        ]
+Mean: 0.9796464646464645
+Median: 0.9772727272727273
+Std: 0.015752475864694037
+[TEST] 80/20 Accuracy of the model is equal: 0.9775280898876404
+              precision    recall  f1-score   support
+
+  circinatum       1.00      0.93      0.97        15
+    garryana       1.00      1.00      1.00        17
+     glabrum       0.94      1.00      0.97        16
+   kelloggii       1.00      1.00      1.00        17
+macrophyllum       0.94      1.00      0.97        17
+     negundo       1.00      0.86      0.92         7
+
+    accuracy                           0.98        89
+   macro avg       0.98      0.97      0.97        89
+weighted avg       0.98      0.98      0.98        89
+
+('contour', 'histogram', 'KAZE', 'Haralick')
+10 fold cross validation scores:
+[1.         1.         1.         0.95454545 1.         1.
+ 1.         0.95454545 0.95454545 1.        ]
+Mean: 0.9863636363636363
+Median: 1.0
+Std: 0.020829889522526526
+[TEST] 80/20 Accuracy of the model is equal: 0.9887640449438202
+              precision    recall  f1-score   support
+
+  circinatum       1.00      1.00      1.00        14
+    garryana       1.00      0.94      0.97        18
+     glabrum       1.00      1.00      1.00        17
+   kelloggii       1.00      1.00      1.00        17
+macrophyllum       0.94      1.00      0.97        17
+     negundo       1.00      1.00      1.00         6
+
+    accuracy                           0.99        89
+   macro avg       0.99      0.99      0.99        89
+weighted avg       0.99      0.99      0.99        89
+
+('contour', 'LBP', 'KAZE', 'Haralick')
+10 fold cross validation scores:
+[1.         1.         1.         0.97727273 0.95454545 0.95454545
+ 1.         0.93181818 0.97727273 1.        ]
+Mean: 0.9795454545454545
+Median: 0.9886363636363636
+Std: 0.023727969338433068
+[TEST] 80/20 Accuracy of the model is equal: 0.9775280898876404
+              precision    recall  f1-score   support
+
+  circinatum       1.00      0.93      0.97        15
+    garryana       0.94      1.00      0.97        16
+     glabrum       1.00      1.00      1.00        17
+   kelloggii       1.00      1.00      1.00        17
+macrophyllum       0.94      1.00      0.97        17
+     negundo       1.00      0.86      0.92         7
+
+    accuracy                           0.98        89
+   macro avg       0.98      0.97      0.97        89
+weighted avg       0.98      0.98      0.98        89
+
+('histogram', 'LBP', 'KAZE', 'Haralick')
+10 fold cross validation scores:
+[1.         1.         1.         0.95454545 1.         0.97727273
+ 0.97727273 0.97727273 0.95454545 1.        ]
+Mean: 0.9840909090909091
+Median: 0.9886363636363636
+Std: 0.01775056744524238
+[TEST] 80/20 Accuracy of the model is equal: 0.9887640449438202
+              precision    recall  f1-score   support
+
+  circinatum       1.00      1.00      1.00        14
+    garryana       1.00      0.94      0.97        18
+     glabrum       1.00      1.00      1.00        17
+   kelloggii       1.00      1.00      1.00        17
+macrophyllum       0.94      1.00      0.97        17
+     negundo       1.00      1.00      1.00         6
+
+    accuracy                           0.99        89
+   macro avg       0.99      0.99      0.99        89
+weighted avg       0.99      0.99      0.99        89
+
+---------------------All features combined------------------------
+10 fold cross validation scores:
+[1.         1.         1.         0.95454545 1.         1.
+ 1.         0.97727273 0.95454545 1.        ]
+Mean: 0.9886363636363636
+Median: 1.0
+Std: 0.018323313064314867
+[TEST] 80/20 Accuracy of the model is equal: 0.9887640449438202
+              precision    recall  f1-score   support
+
+  circinatum       1.00      0.93      0.97        15
+    garryana       1.00      1.00      1.00        17
+     glabrum       1.00      1.00      1.00        17
+   kelloggii       1.00      1.00      1.00        17
+macrophyllum       0.94      1.00      0.97        17
+     negundo       1.00      1.00      1.00         6
+
+    accuracy                           0.99        89
+   macro avg       0.99      0.99      0.99        89
+weighted avg       0.99      0.99      0.99        89

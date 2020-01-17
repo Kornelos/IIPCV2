@@ -1,19 +1,14 @@
 import cv2 as cv
 import numpy as np
 import matplotlib.pyplot as plt
-# import mahotas as mt
 from mahotas.features import haralick
 import glob
 from sklearn.svm import LinearSVC
 from sklearn.preprocessing import StandardScaler
 from skimage import feature
-from pylab import rcParams
-
-
-# for image classification use svm or naive bayes
-# other lib than openv can be used for texture characterisation
-# TODO: IDEAS FOR features DAISY, SURF, SIFT keyword bag-of-features
-# https://www.mathworks.com/help/vision/ug/local-feature-detection-and-extraction.html
+from sklearn.model_selection import train_test_split, cross_val_score
+from itertools import combinations
+from sys import argv
 
 plants = ['circinatum', 'garryana', 'glabrum', 'kelloggii', 'macrophyllum', 'negundo']
 
@@ -50,11 +45,10 @@ def extract_contour_features(image):
     perimeter = cv.arcLength(cnt, True)
     # average intensity of the object in grayscale
     mean_val = cv.mean(image, mask=mask)
-    return [aspect_ratio, extent, solidity, equi_diameter, perimeter, hull_area, mean_val[0]]
+    return np.array([aspect_ratio, extent, solidity, equi_diameter, perimeter, hull_area, mean_val[0]])
 
 
-# Mahotas - Harlick texture feature vector
-def extract_texture_features(image, mode='default'):
+def extract_haralick_features(image, mode='default'):
     """
     Function extracting texture features
     https://mahotas.readthedocs.io/en/latest/api.html?highlight=haralick#mahotas.features.haralick
@@ -64,57 +58,47 @@ def extract_texture_features(image, mode='default'):
     """
     if mode == 'thresh':
         # calculate haralick texture features for 4 types of adjacency
-        ret, th = cv.threshold(gray, 0, 255, cv.THRESH_TOZERO_INV + cv.THRESH_OTSU)
+        ret, th = cv.threshold(image, 0, 255, cv.THRESH_TOZERO_INV + cv.THRESH_OTSU)
         textures = haralick(th, ignore_zeros=True)
     else:
-        textures = haralick(gray)
+        textures = haralick(image)
     # take the mean of it and return it
     ht_mean = textures.mean(axis=0)
     return ht_mean
 
 
-def extract_lbp_feature(image, numPoints, radius, eps=1e-7):
-    # compute the Local Binary Pattern representation
-    # of the image, and then use the LBP representation
-    # to build the histogram of patterns
+def extract_lbp_feature(image, num_points=24, radius=8, eps=1e-7):
     """
-
+    compute the Local Binary Pattern representation
+    of the image, and then use the LBP representation
+    to build the histogram of patterns
     :param image: grayscale
-    :param numPoints: Number of points in a circularly symmetric neighborhood to consider.
+    :param num_points: Number of points in a circularly symmetric neighborhood to consider.
     :param radius: The radius of the circle, which allows us to account for different scales.
     :param eps: Number used for normaliztaion
-    :return:
+    :return:feature vector
     """
-    lbp = feature.local_binary_pattern(image, numPoints,
+    lbp = feature.local_binary_pattern(image, num_points,
                                        radius, method="uniform")
     (hist, _) = np.histogram(lbp.ravel(),
-                             bins=np.arange(0, numPoints + 3),
-                             range=(0, numPoints + 2))
+                             bins=np.arange(0, num_points + 3),
+                             range=(0, num_points + 2))
 
     # normalize the histogram
     hist = hist.astype("float")
     hist /= (hist.sum() + eps)
-
     # return the histogram of Local Binary Patterns
     return hist
 
 
-# def daisy_feature(image):
-#     ft = feature.daisy(image, step=180, radius=58, rings=2, histograms=6,
-#                        orientations=8)
-#     a = np.mean(ft, axis=0)
-#     return np.mean(a, axis=0)
-
-
-# def censure_features(image):
-#     censure = feature.CENSURE()
-#     censure.detect(image)
-#     return censure.scales
-
-
 def kaze_features(image, vector_size=32):
-    # Using KAZE, cause SIFT, ORB and other was moved to additional module
-    # which is adding addtional pain during install
+    """
+    Compute feature vector based on KAZE features
+    https://docs.opencv.org/3.4/d3/d61/classcv_1_1KAZE.html
+    :param image: grayscale
+    :param vector_size: return vector size
+    :return: feature vector
+    """
     alg = cv.KAZE_create()
     # Finding image keypoints
     kps = alg.detect(image)
@@ -124,112 +108,95 @@ def kaze_features(image, vector_size=32):
     kps = sorted(kps, key=lambda x: -x.response)[:vector_size]
     # computing descriptors vector
     kps, dsc = alg.compute(image, kps)
-    # Flatten all of them in one big vector - our feature vector
-    # dsc = dsc.flatten()
     dsc = dsc.mean(axis=0)
-    # Making descriptor of same size
-    # Descriptor vector size is 64
-    # needed_size = (vector_size * 64)
-    # if dsc.size < vector_size:
-    # # if we have less the 32 descriptors then just adding zeros at the
-    # # end of our feature vector
-    #     dsc = np.concatenate([dsc, np.zeros(vector_size - dsc.size)])
     return dsc
 
 
 def hist_features(image, eps=1e-7):
-    hist = cv.calcHist([image], [0], None, [256], [0, 256])
-    hist = hist.astype("float")
-    hist /= (hist.sum() + eps)
-
+    """
+    Compute feature vector based on image histogram
+    :param image: grayscale
+    :param eps: Number used for normaliztaion
+    :return: feature vector
+    """
+    histogram = cv.calcHist([image], [0], None, [256], [0, 256])
+    histogram = histogram.astype("float")
+    histogram /= (histogram.sum() + eps)
     # return the histogram of Local Binary Patterns
-    return hist.flatten()
+    return histogram.flatten()
 
 
 def prepare_data():
-    path = []
+    paths = []
+    gray_images = []
+    class_labels = []
     for p in plants:
-        path.append(glob.glob('isolated/' + p + '/*'))
-    return path
+        paths.append(glob.glob('isolated/' + p + '/*'))
 
-
-if __name__ == '__main__':
-    images = prepare_data()
-    img = cv.imread('./isolated/circinatum/l11.jpg')
-    gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-    extract_contour_features(gray)
-    ret, th = cv.threshold(gray, 0, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)
-    # plt.imshow(th, cmap='gray')
-    # plt.title('otsu')
-    # plt.show()
-
-    contours, hierarchy = cv.findContours(th, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
-    cv.drawContours(img, contours, -1, (0, 255, 0), 3)
-    # plt.imshow(img)
-    # plt.show()
-    a = hist_features(gray)
-    print(a)
-    # # --------------------------DATA PROCESSING
-    train_features = []
-    train_labels = []
     i = 0
-    j = 0
-    for path in images:
-        j = 0
+    for path in paths:
         for file in path:
             image = cv.imread(file)
             # convert the image to grayscale
             gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
-            # extract haralick texture from the image
-            # features = extract_texture_features(gray)
-            # features2 = extract_contour_features(gray)
-            # features3 = extract_lbp_feature(gray, 24, 8)
-            # features4 = daisy_feature(gray)
-            # features5 = kaze_features(gray)
-            features6 = hist_features(gray)
-            # append the feature vector and label np.append
-            # train_features.append(np.append(features, features3))
-            train_features.append(features6)
-            train_labels.append(i)
-            # if j==5:
-            #     break
-            # j += 1
-        print("[STATUS] Processing {} images..".format(plants[i]))
+            gray_images.append(gray)
+            class_labels.append(i)
         i += 1
 
-    print("Training features: {}".format(np.array(train_features).shape))
-    print("Training labels: {}".format(np.array(train_labels).shape))
+    return gray_images, class_labels
 
-    # create the classifier
-    print("[STATUS] Creating the classifier..")
-    clf_svm = LinearSVC(max_iter=9000)
 
-    # fit the training data and labels
-    print("[STATUS] Fitting data/label to model..")
-    scaler = StandardScaler()
-    train_features = scaler.fit_transform(train_features)
-    from sklearn.model_selection import train_test_split
+def process_data(gray_images, alg):
+    fv = []
+    for img in gray_images:
+        fv.append(alg(img))
+    return fv
 
-    # TODO: at the end of development set random_state to None
-    xTrain, xTest, yTrain, yTest = train_test_split(train_features, train_labels, test_size=0.2, random_state=0)
-    # train linear svc
-    # clf_svm.fit(xTrain, yTrain)
 
-    from sklearn.model_selection import KFold, cross_val_score
+if __name__ == '__main__':
+    images, train_labels = prepare_data()
 
-    score = cross_val_score(clf_svm, train_features, train_labels, cv=10)
-    print(score)
+    cont = process_data(images, extract_contour_features)
+    hist = process_data(images, hist_features)
+    lbp = process_data(images, extract_lbp_feature)
+    kaze = process_data(images, kaze_features)
+    haralick = process_data(images, extract_haralick_features)
 
-    # for train_indices, test_indices in k_fold.split(xTrain):
-    #     print('Train: %s | test: %s' % (train_indices, test_indices))
-    # [clf_svm.fit(train_features[train], train_labels[train]).score(train_features[test], train_labels[test])
-    #  for train, test in k_fold.split(train_features)]
-    # res = cross_val_score(clf_svm, train_features, train_labels, n_jobs=-1)
-    # print(res)
-    # score = clf_svm.score(xTrain, yTrain)
-    # print('[TRAIN] Accuracy of the model is equal: {}'.format(score))
-    # score = clf_svm.score(xTest, yTest)
-    # print('[TEST] Accuracy of the model is equal: {}'.format(score))
-    #
-    # prediction = clf_svm.predict(xTest[1].reshape(1, -1))
-    # print('Value predicted {} correct value - {}'.format(prediction, yTest[1]))
+    feature_vectors = [cont, hist, ]
+    feature_names = ['contour', 'histogram', 'LBP', 'KAZE', 'Haralick']
+    # here we can define what combinations we want to test i.e. all pairs
+    if len(argv) > 1:
+        n = int(argv[1])
+    else:
+        n = 1
+
+    fvs = combinations(feature_vectors, n)
+    names = combinations(feature_names, n)
+
+    for t, name in zip(fvs, names):
+        train_features = np.concatenate(t, axis=1)
+        # create the classifier
+        # print("[STATUS] Creating the classifier..")
+        clf_svm = LinearSVC(max_iter=9000)
+
+        # fit the training data and labels
+        # print("[STATUS] Fitting data/label to model..")
+        scaler = StandardScaler()
+        train_features = scaler.fit_transform(train_features)
+        score = cross_val_score(clf_svm, train_features, train_labels, cv=10, n_jobs=-1)
+        print(name)
+        print('10 fold cross validation scores:')
+        print(score)
+        print('Mean: {}'.format(np.mean(score)))
+        print('Median: {}'.format(np.median(score)))
+        print('Std: {}'.format(np.std(score)))
+
+        xTrain, xTest, yTrain, yTest = train_test_split(train_features, train_labels, test_size=0.2, random_state=0)
+        # train linear svc
+        clf_svm.fit(xTrain, yTrain)
+        score = clf_svm.score(xTest, yTest)
+        print('[TEST] 80/20 Accuracy of the model is equal: {}'.format(score))
+        from sklearn.metrics import classification_report
+
+        test_pred = clf_svm.predict(xTest)
+        print(classification_report(test_pred, yTest, target_names=plants))
